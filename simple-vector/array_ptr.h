@@ -30,6 +30,18 @@ public:
     // Запрещаем копирование
     ArrayPtr(const ArrayPtr&) = delete;
 
+    ArrayPtr(ArrayPtr&& other) {
+        raw_ptr_ = std::move(other.raw_ptr_);
+    }
+
+    ArrayPtr& operator=(ArrayPtr&& other) {
+        if (!raw_ptr_) {
+            delete[] raw_ptr_;
+        }
+        raw_ptr_ = std::move(other.raw_ptr_);
+        return *this;
+    }
+
     ~ArrayPtr() {
         delete[] raw_ptr_;
     }
